@@ -1,6 +1,6 @@
 /*
  *  UEFI Tetris
- *  Copyright (C) 2013¨C2014, Curtis McEnroe programble@gmail.com
+ *  Copyright (C) 2013Â¨C2014, Curtis McEnroe programble@gmail.com
  *
  *  Permission to use, copy, modify, and/or distribute this software
  *  for any purpose with or without fee is hereby granted, provided 
@@ -835,6 +835,7 @@ EFIAPI
 efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 {
     InitializeLib(ImageHandle, SystemTable);
+    SystemTable->BootServices->SetWatchdogTimer(0, 0, 0, NULL);
     ConOut = SystemTable->ConOut;
     ConIn = SystemTable->ConIn;
     memset (well, 0, sizeof (well));
