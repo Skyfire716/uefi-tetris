@@ -841,6 +841,7 @@ EFIAPI
 efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 {
     InitializeLib(ImageHandle, SystemTable);
+    SystemTable->BootServices->SetWatchdogTimer(0, 0, 0, NULL);
     ConOut = SystemTable->ConOut;
     ConIn = SystemTable->ConIn;
     memset (well, 0, sizeof (well));
