@@ -1,6 +1,6 @@
 /*
  *  UEFI Tetris
- *  Copyright (C) 2013¨C2014, Curtis McEnroe programble@gmail.com
+ *  Copyright (C) 2013Â¨C2014, Curtis McEnroe programble@gmail.com
  *
  *  Permission to use, copy, modify, and/or distribute this software
  *  for any purpose with or without fee is hereby granted, provided 
@@ -298,6 +298,7 @@ static void clear(enum color bg)
 #define KEY_P     'p'
 #define KEY_R     'r'
 #define KEY_S     's'
+#define KEY_M     'm'
 #define KEY_UP    SCAN_UP
 #define KEY_DOWN  SCAN_DOWN
 #define KEY_LEFT  SCAN_LEFT
@@ -305,6 +306,8 @@ static void clear(enum color bg)
 #define KEY_ENTER 0x0d
 #define KEY_SPACE ' '
 #define KEY_ESC   SCAN_ESC
+
+bool sound = true;
 
 /* Return the scancode of the current up or down key if it has changed since
  * the last call, otherwise returns 0. When called on every iteration of the
@@ -327,6 +330,9 @@ static int scan(void)
 /* PC Speaker */
 static void speaker_play(uint32_t hz, uintn_t time)
 {
+    if(!sound){
+        return;
+    }
     uint32_t div = 0;
     if (hz < 20)
         hz = 20;
@@ -949,6 +955,8 @@ loop:
         _puts(7, 20, BLUE,   BLACK, "- Toggle debug info");
         _puts(1, 21, GRAY,   BLACK, "H");
         _puts(7, 21, BLUE,   BLACK, "- Toggle help");
+        _puts(1, 22, GRAY,   BLACK, "M");
+        _puts(7, 22, BLUE,   BLACK, "- Toggle sound");
     }
 
     if (statistics) {
@@ -986,6 +994,9 @@ loop:
             if (statistics)
                 debug = help = false;
             clear(BLACK);
+            break;
+        case KEY_M:
+            sound = !sound;
             break;
         case KEY_R:
         case KEY_ESC:
